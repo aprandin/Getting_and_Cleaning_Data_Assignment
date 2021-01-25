@@ -42,6 +42,7 @@ names(allData_mean_std) <- gsub('BodyBody','Body',names(allData_mean_std))
 
 # 5 From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject
 
-final <- aggregate(. ~subject + activity, allData_mean_std, mean)
-final <- final[order(final$subject,final$activity),]
+library(dplyr)
+allData_group <- group_by(allData_mean_std,subject,activity)
+final <- summarise_all(allData_group,mean)
 write.table(final, file = 'tidydata.txt', row.names = F)
